@@ -3,11 +3,9 @@
 This module allows the calculator to be run as: python -m calculator
 """
 
+import sys
 
-def main():
-    """Main entry point for the calculator."""
-    print("Calculator module entry point")
-
+from calculator.cli import main
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
