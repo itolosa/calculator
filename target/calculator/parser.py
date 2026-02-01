@@ -173,3 +173,19 @@ def parse(expression: str) -> float:
     """
     parser = Parser()
     return parser.parse(expression)
+
+
+def parse_and_evaluate(expression: str) -> float:
+    """Parse and evaluate a mathematical expression.
+
+    Args:
+        expression: The mathematical expression to evaluate.
+
+    Returns:
+        The result of the expression.
+
+    Raises:
+        SyntaxError: If the expression is malformed.
+        ZeroDivisionError: If division by zero occurs.
+    """
+    return parse(expression)

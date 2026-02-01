@@ -2,7 +2,7 @@
 
 import pytest
 
-from calculator.parser import parse
+from calculator.parser import parse, parse_and_evaluate
 
 
 class TestSimpleExpressions:
@@ -150,3 +150,41 @@ class TestErrorHandling:
         """Test that consecutive operators raise SyntaxError."""
         with pytest.raises(SyntaxError):
             parse("2 + * 3")
+
+
+class TestParseAndEvaluate:
+    """Tests for parse_and_evaluate function."""
+
+    def test_basic_expression(self):
+        """Test that parse_and_evaluate works for basic expressions."""
+        assert parse_and_evaluate("2 + 3") == 5.0
+
+    def test_operator_precedence(self):
+        """Test that parse_and_evaluate respects operator precedence."""
+        assert parse_and_evaluate("2 + 3 * 4") == 14.0
+
+    def test_parentheses(self):
+        """Test that parse_and_evaluate handles parentheses."""
+        assert parse_and_evaluate("(2 + 3) * 4") == 20.0
+
+    def test_negative_numbers(self):
+        """Test that parse_and_evaluate handles negative numbers."""
+        assert parse_and_evaluate("-5 + 3") == -2.0
+
+    def test_decimal_numbers(self):
+        """Test that parse_and_evaluate handles decimal numbers."""
+        assert parse_and_evaluate("3.14 * 2") == pytest.approx(6.28)
+
+    def test_nested_parentheses(self):
+        """Test that parse_and_evaluate handles nested parentheses."""
+        assert parse_and_evaluate("((2 + 3) * (4 - 1))") == 15.0
+
+    def test_malformed_expression(self):
+        """Test that parse_and_evaluate raises SyntaxError for malformed expressions."""
+        with pytest.raises(SyntaxError):
+            parse_and_evaluate("2 +")
+
+    def test_division_by_zero(self):
+        """Test that parse_and_evaluate raises ZeroDivisionError."""
+        with pytest.raises(ZeroDivisionError):
+            parse_and_evaluate("5 / 0")
