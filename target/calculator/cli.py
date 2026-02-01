@@ -7,7 +7,6 @@ import sys
 
 from calculator.parser import parse
 
-
 HELP_TEXT = """Calculator CLI - Help
 
 Usage:

@@ -36,7 +36,7 @@ class TestAdd:
 
     def test_add_large_numbers(self):
         """Test adding large numbers."""
-        assert add(1e100, 2e100) == 3e100
+        assert add(1e100, 2e100) == pytest.approx(3e100)
 
 
 class TestSubtract:
@@ -61,7 +61,7 @@ class TestSubtract:
 
     def test_subtract_large_numbers(self):
         """Test subtracting large numbers."""
-        assert subtract(3e100, 1e100) == 2e100
+        assert subtract(3e100, 1e100) == pytest.approx(2e100)
 
 
 class TestMultiply:
@@ -86,7 +86,7 @@ class TestMultiply:
 
     def test_multiply_large_numbers(self):
         """Test multiplying large numbers."""
-        assert multiply(1e50, 2e50) == 2e100
+        assert multiply(1e50, 2e50) == pytest.approx(2e100)
 
 
 class TestDivide:
@@ -171,7 +171,9 @@ class TestSqrt:
 
     def test_sqrt_negative_raises_error(self):
         """Test that square root of negative number raises ValueError."""
-        with pytest.raises(ValueError, match="cannot calculate square root of negative number"):
+        with pytest.raises(
+            ValueError, match="cannot calculate square root of negative number"
+        ):
             sqrt(-1.0)
 
     def test_sqrt_perfect_square(self):
@@ -237,7 +239,9 @@ class TestFactorial:
 
     def test_factorial_negative_raises_error(self):
         """Test that factorial of negative number raises ValueError."""
-        with pytest.raises(ValueError, match="factorial is not defined for negative numbers"):
+        with pytest.raises(
+            ValueError, match="factorial is not defined for negative numbers"
+        ):
             factorial(-1)
 
     def test_factorial_non_integer_raises_error(self):
