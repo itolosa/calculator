@@ -77,19 +77,19 @@ class TestREPLMode:
     def test_repl_error_handling(self):
         """Test that REPL handles errors gracefully."""
         with mock.patch('builtins.input', side_effect=['2 + + 3', 'exit']):
-            with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            with mock.patch('sys.stderr', new_callable=StringIO) as mock_stderr:
                 result = repl()
                 assert result == 0
-                output = mock_stdout.getvalue()
+                output = mock_stderr.getvalue()
                 assert 'Error:' in output
 
     def test_repl_division_by_zero(self):
         """Test that REPL handles division by zero."""
         with mock.patch('builtins.input', side_effect=['5 / 0', 'exit']):
-            with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            with mock.patch('sys.stderr', new_callable=StringIO) as mock_stderr:
                 result = repl()
                 assert result == 0
-                output = mock_stdout.getvalue()
+                output = mock_stderr.getvalue()
                 assert 'Error:' in output
 
     def test_repl_empty_input(self):
@@ -128,6 +128,16 @@ class TestREPLMode:
             with mock.patch('sys.stdout', new_callable=StringIO):
                 result = repl()
                 assert result == 0
+
+    def test_repl_help_command(self):
+        """Test that REPL displays help text."""
+        with mock.patch('builtins.input', side_effect=['help', 'exit']):
+            with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                result = repl()
+                assert result == 0
+                output = mock_stdout.getvalue()
+                assert 'Calculator CLI - Help' in output
+                assert 'Supported operations' in output
 
 
 class TestMainWithNoArgs:

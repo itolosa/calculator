@@ -8,6 +8,32 @@ import sys
 from calculator.parser import parse
 
 
+HELP_TEXT = """Calculator CLI - Help
+
+Usage:
+  Interactive mode (REPL):
+    > <expression>         Evaluate a mathematical expression
+    > help                 Show this help message
+    > exit                 Exit the calculator
+    > quit                 Exit the calculator
+
+  Non-interactive mode:
+    python -m calculator "expression"
+
+Supported operations:
+  + (addition), - (subtraction), * (multiplication), / (division)
+  Parentheses for grouping: ( )
+
+Examples:
+  > 2 + 3
+  5.0
+  > (10 - 2) * 4
+  32.0
+  > 15 / 3
+  5.0
+"""
+
+
 def main(args=None):
     """Main entry point for the calculator CLI.
 
@@ -39,18 +65,24 @@ def repl():
     Returns:
         Exit code (always 0).
     """
-    print("Calculator REPL. Type 'exit' or 'quit' to exit.")
     while True:
         try:
-            expression = input(">> ")
+            expression = input("> ")
+
             if expression.lower() in ('exit', 'quit'):
                 break
+
+            if expression.lower() == 'help':
+                print(HELP_TEXT)
+                continue
+
             if not expression.strip():
                 continue
+
             result = parse(expression)
             print(result)
         except (SyntaxError, ZeroDivisionError) as e:
-            print(f"Error: {e}")
+            print(f"Error: {e}", file=sys.stderr)
         except EOFError:
             break
         except KeyboardInterrupt:
